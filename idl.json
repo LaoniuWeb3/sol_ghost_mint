@@ -1,0 +1,527 @@
+{
+    "address": "Hp5cZFAyVUTY8bpkd6qsUvjqL8myKSRaCDvY3nxN65fU",
+    "metadata": {
+      "name": "solana_meme",
+      "version": "0.1.0",
+      "spec": "0.1.0",
+      "description": "Created with Anchor"
+    },
+    "instructions": [
+      {
+        "name": "ghostx_claim",
+        "discriminator": [59, 77, 100, 72, 250, 32, 154, 205],
+        "accounts": [
+          {
+            "name": "payer",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "ghost_sys_info",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [71, 104, 111, 115, 116, 83, 121, 115, 73, 110, 102, 111, 51]
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_user_summary",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [71, 104, 111, 115, 116, 85, 115, 101, 114, 83, 117, 109, 109, 97, 114, 121, 51]
+                },
+                {
+                  "kind": "account",
+                  "path": "payer"
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_vault_pda",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [103, 104, 111, 115, 116, 95, 118, 97, 117, 108, 116, 95, 112, 100, 97, 51]
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_team_receive_pda",
+            "writable": true,
+            "address": "9wyL4jdMAVT7ff5NP4JpfDZaeVsj4mM9jhwBQVyk4JAP"
+          },
+          {
+            "name": "ghost_token_ata",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "account",
+                  "path": "payer"
+                },
+                {
+                  "kind": "const",
+                  "value": [6, 221, 246, 225, 215, 101, 161, 147, 217, 203, 225, 70, 206, 235, 121, 172, 28, 180, 133, 237, 95, 91, 55, 145, 58, 140, 245, 133, 126, 255, 0, 169]
+                },
+                {
+                  "kind": "account",
+                  "path": "ghost_mint"
+                }
+              ],
+              "program": {
+                "kind": "const",
+                "value": [140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142, 13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216, 219, 233, 248, 89]
+              }
+            }
+          },
+          {
+            "name": "ghost_mint",
+            "address": "7EsVJBgkBJ4XwuL1oQPPK4EBicwSFCjcwkSCRHCYbC1G"
+          },
+          {
+            "name": "vault_authority",
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [97, 117, 116, 104, 111, 114, 105, 116, 121, 80, 100, 97]
+                }
+              ]
+            }
+          },
+          {
+            "name": "token_program",
+            "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          },
+          {
+            "name": "associated_token_program",
+            "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "ghostx_init",
+        "discriminator": [52, 190, 125, 86, 121, 225, 77, 78],
+        "accounts": [
+          {
+            "name": "payer",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "ghost_vault_pda",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [103, 104, 111, 115, 116, 95, 118, 97, 117, 108, 116, 95, 112, 100, 97, 51]
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_mint",
+            "address": "7EsVJBgkBJ4XwuL1oQPPK4EBicwSFCjcwkSCRHCYbC1G"
+          },
+          {
+            "name": "vault_authority",
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [97, 117, 116, 104, 111, 114, 105, 116, 121, 80, 100, 97]
+                }
+              ]
+            }
+          },
+          {
+            "name": "token_program",
+            "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "ghostx_mint",
+        "discriminator": [254, 237, 82, 195, 9, 61, 205, 242],
+        "accounts": [
+          {
+            "name": "payer",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "ghost_sys_info",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [71, 104, 111, 115, 116, 83, 121, 115, 73, 110, 102, 111, 51]
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_user_summary",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [71, 104, 111, 115, 116, 85, 115, 101, 114, 83, 117, 109, 109, 97, 114, 121, 51]
+                },
+                {
+                  "kind": "account",
+                  "path": "payer"
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_vault_pda",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [103, 104, 111, 115, 116, 95, 118, 97, 117, 108, 116, 95, 112, 100, 97, 51]
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_team_receive_pda",
+            "writable": true,
+            "address": "9wyL4jdMAVT7ff5NP4JpfDZaeVsj4mM9jhwBQVyk4JAP"
+          },
+          {
+            "name": "ghost_token_ata",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "account",
+                  "path": "payer"
+                },
+                {
+                  "kind": "const",
+                  "value": [6, 221, 246, 225, 215, 101, 161, 147, 217, 203, 225, 70, 206, 235, 121, 172, 28, 180, 133, 237, 95, 91, 55, 145, 58, 140, 245, 133, 126, 255, 0, 169]
+                },
+                {
+                  "kind": "account",
+                  "path": "ghost_mint"
+                }
+              ],
+              "program": {
+                "kind": "const",
+                "value": [140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142, 13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216, 219, 233, 248, 89]
+              }
+            }
+          },
+          {
+            "name": "ghost_mint",
+            "address": "7EsVJBgkBJ4XwuL1oQPPK4EBicwSFCjcwkSCRHCYbC1G"
+          },
+          {
+            "name": "vault_authority",
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [97, 117, 116, 104, 111, 114, 105, 116, 121, 80, 100, 97]
+                }
+              ]
+            }
+          },
+          {
+            "name": "token_program",
+            "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          },
+          {
+            "name": "associated_token_program",
+            "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "ghostx_upgrade",
+        "discriminator": [0, 81, 111, 130, 32, 99, 161, 233],
+        "accounts": [
+          {
+            "name": "payer",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "ghost_sys_info",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [71, 104, 111, 115, 116, 83, 121, 115, 73, 110, 102, 111, 51]
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_user_summary",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [71, 104, 111, 115, 116, 85, 115, 101, 114, 83, 117, 109, 109, 97, 114, 121, 51]
+                },
+                {
+                  "kind": "account",
+                  "path": "payer"
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_vault_pda",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [103, 104, 111, 115, 116, 95, 118, 97, 117, 108, 116, 95, 112, 100, 97, 51]
+                }
+              ]
+            }
+          },
+          {
+            "name": "ghost_team_receive_pda",
+            "writable": true,
+            "address": "9wyL4jdMAVT7ff5NP4JpfDZaeVsj4mM9jhwBQVyk4JAP"
+          },
+          {
+            "name": "ghost_token_ata",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "account",
+                  "path": "payer"
+                },
+                {
+                  "kind": "const",
+                  "value": [6, 221, 246, 225, 215, 101, 161, 147, 217, 203, 225, 70, 206, 235, 121, 172, 28, 180, 133, 237, 95, 91, 55, 145, 58, 140, 245, 133, 126, 255, 0, 169]
+                },
+                {
+                  "kind": "account",
+                  "path": "ghost_mint"
+                }
+              ],
+              "program": {
+                "kind": "const",
+                "value": [140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142, 13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216, 219, 233, 248, 89]
+              }
+            }
+          },
+          {
+            "name": "ghost_mint",
+            "address": "7EsVJBgkBJ4XwuL1oQPPK4EBicwSFCjcwkSCRHCYbC1G"
+          },
+          {
+            "name": "vault_authority",
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [97, 117, 116, 104, 111, 114, 105, 116, 121, 80, 100, 97]
+                }
+              ]
+            }
+          },
+          {
+            "name": "token_program",
+            "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          },
+          {
+            "name": "associated_token_program",
+            "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": []
+      }
+    ],
+    "accounts": [
+      {
+        "name": "GhostSysInfo",
+        "discriminator": [56, 54, 164, 173, 176, 174, 128, 162]
+      },
+      {
+        "name": "GhostUserSummary",
+        "discriminator": [40, 104, 12, 80, 73, 186, 121, 228]
+      }
+    ],
+    "events": [
+      {
+        "name": "ClaimedEvent",
+        "discriminator": [144, 172, 209, 86, 144, 87, 84, 115]
+      }
+    ],
+    "errors": [
+      {
+        "code": 6000,
+        "name": "Error",
+        "msg": "Error"
+      },
+      {
+        "code": 6001,
+        "name": "OVERFLOW",
+        "msg": "OVERFLOW"
+      },
+      {
+        "code": 6002,
+        "name": "LIMIT",
+        "msg": "LIMIT NOT OPEN"
+      }
+    ],
+    "types": [
+      {
+        "name": "ClaimedEvent",
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "amount",
+              "type": "u64"
+            },
+            {
+              "name": "next_claim_amount",
+              "type": "u64"
+            },
+            {
+              "name": "next_claim_time",
+              "type": "u64"
+            }
+          ]
+        }
+      },
+      {
+        "name": "GhostSysInfo",
+        "serialization": "bytemuck",
+        "repr": {
+          "kind": "c"
+        },
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "start_time",
+              "type": "u64"
+            },
+            {
+              "name": "minted_times",
+              "type": "u64"
+            },
+            {
+              "name": "total_staked_amount",
+              "type": "u64"
+            },
+            {
+              "name": "total_token_claimed",
+              "type": "u64"
+            },
+            {
+              "name": "total_token_minted",
+              "type": "u64"
+            },
+            {
+              "name": "unique_user",
+              "type": "u64"
+            },
+            {
+              "name": "level_user",
+              "type": {
+                "array": ["u64", 21]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "GhostUserSummary",
+        "serialization": "bytemuck",
+        "repr": {
+          "kind": "c"
+        },
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "total_minted_times",
+              "type": "u64"
+            },
+            {
+              "name": "minted_times",
+              "type": "u64"
+            },
+            {
+              "name": "level",
+              "type": "u64"
+            },
+            {
+              "name": "last_claim_time",
+              "type": "u64"
+            },
+            {
+              "name": "staked_amount",
+              "type": "u64"
+            },
+            {
+              "name": "unlock_time",
+              "type": "u64"
+            },
+            {
+              "name": "token_claimed",
+              "type": "u64"
+            },
+            {
+              "name": "token_minted",
+              "type": "u64"
+            },
+            {
+              "name": "tmp_unclaimed",
+              "type": "i64"
+            }
+          ]
+        }
+      }
+    ]
+  }
