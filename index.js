@@ -69,16 +69,16 @@ async function getGhostInfo(program, wallet) {
 
         const currentLevel = userSummary.level.toNumber();
 
-                // 获取可领取收益
-                const simulateResult = await program.methods.ghostxClaim()
-                .accounts({})
-                .simulate();
+        // 获取可领取收益
+        const simulateResult = await program.methods.ghostxClaim()
+        .accounts({})
+        .simulate();
             
-            const claimInfo = {
-                amount: simulateResult.events[0].data.amount.toString() / 1e8,
-                nextClaimAmount: simulateResult.events[0].data.nextClaimAmount.toString() / 1e8,
-                nextClaimTime: simulateResult.events[0].data.nextClaimTime.toString()
-            };
+        const claimInfo = {
+            amount: simulateResult.events[0].data.amount.toString() / 1e8,
+            nextClaimAmount: simulateResult.events[0].data.nextClaimAmount.toString() / 1e8,
+            nextClaimTime: simulateResult.events[0].data.nextClaimTime.toString()
+        };
         
         return {
             systemInfo: {
@@ -91,23 +91,22 @@ async function getGhostInfo(program, wallet) {
                 levelDistribution: sysInfo.levelUser.map(x => x.toString())
             },
             userInfo: {
-                walletAddress: wallet.publicKey.toString(),
-                currentLevel: currentLevel,
-                dailyReward: (pe[currentLevel] / 1e8) * 24 * 3600,
-                mintedTimes: userSummary.mintedTimes.toString(),
-                canMint: userSummary.mintedTimes < 10,
-                stakedAmount: userSummary.stakedAmount.toString() / 1e8,
+                walletAddress: wallet.publicKey.toString(), // 钱包地址
+                currentLevel: currentLevel, // 当前等级
+                dailyReward: (pe[currentLevel] / 1e8) * 24 * 3600, // 每日收益
+                mintedTimes: userSummary.mintedTimes.toString(), // 当前等级已 mint 次数
+                canMint: userSummary.mintedTimes < 10, // 是否可以 mint
+                stakedAmount: userSummary.stakedAmount.toString() / 1e8, // 质押量
                 // 直接使用合约返回的未领取数量
                 // unclaimedReward: userSummary.tmpUnclaimed.toString() / 1e8 || 0,  // 使用 unclaimed 而不是 tmpUnclaimed
-                totalBalance: tokenBalance.value.uiAmount,
-                claimedReward: userSummary.tokenClaimed.toString() / 1e8,
-                canClaim: userSummary.unclaimed > 0,
-                canUpgrade: userSummary.stakedAmount >= de[currentLevel + 1],
-                nextLevelStakeRequired: de[currentLevel + 1] / 1e8,
+                totalBalance: tokenBalance.value.uiAmount, // 账户余额
+                claimedReward: userSummary.tokenClaimed.toString() / 1e8, // 已领取奖励
+                canClaim: userSummary.unclaimed > 0, // 是否可以领取
+                canUpgrade: userSummary.stakedAmount >= de[currentLevel + 1], // 是否可以升级
+                nextLevelStakeRequired: de[currentLevel + 1] / 1e8, // 升级所需质押量
                 unclaimedReward: claimInfo.amount,  // 使用模拟调用获取的收益值
-                nextClaimTime: claimInfo.nextClaimTime,
-                nextClaimAmount: claimInfo.nextClaimAmount,
-                curLevelUpgradeAmt: de[currentLevel + 1] / 1e8 - userSummary.stakedAmount
+                nextClaimTime: claimInfo.nextClaimTime, // 下次领取时间
+                nextClaimAmount: claimInfo.nextClaimAmount, // 下次领取数量
             }
         };
     } catch (error) {
@@ -144,21 +143,22 @@ function printStatus(info) {
     const shortAddr = userInfo.walletAddress.slice(0,4) + '..' + userInfo.walletAddress.slice(-4);
     console.log([
         `地址:${shortAddr}`,
-        `Lv${userInfo.currentLevel}`,
+        `当前等级${userInfo.currentLevel}`,
         `Mint:${userInfo.mintedTimes}/10`,
-        `质押:${userInfo.stakedAmount}`,
+        `已质押:${userInfo.stakedAmount}`,
         `未领取:${userInfo.unclaimedReward}`,
-        `总余额:${userInfo.totalBalance}`,
+        `可用余额:${userInfo.totalBalance}`,
         `已领取:${userInfo.claimedReward}`,
         `每日收益:${userInfo.dailyReward?.toFixed(2) || 0}`,
         `Mint:${userInfo.canMint ? '✅' : '❌'}`,
         `Summon:${!userInfo.canMint ? '✅' : '❌'}`,
-        `Claim:${userInfo.canClaim ? '✅' : '❌'}`
+        `Claim:${userInfo.canClaim ? '✅' : '❌'}`,
+        `升级所需金额:${(userInfo.nextLevelStakeRequired).toFixed(0)}`
     ].join(' | '));
 
     // 如果可以升级，显示升级信息
     if (!userInfo.canUpgrade && userInfo.nextLevelStakeRequired) {
-        console.log(`升级到 Lv${userInfo.currentLevel + 1} 还需质押: ${(userInfo.nextLevelStakeRequired - userInfo.stakedAmount).toFixed(2)} GHOST`);
+        console.log(`升级到 Lv${userInfo.currentLevel + 1} 需要: ${(userInfo.nextLevelStakeRequired).toFixed(2)} GHOST`);
     }
 }
 
@@ -191,7 +191,7 @@ async function mintGhost(privateKey) {
             console.log("无法继续 Mint，检查是否可以质押升级...");
             
             // 检查当前余额是否满足质押条件
-            if (info.userInfo.totalBalance >= info.userInfo.curLevelUpgradeAmt) {
+            if (info.userInfo.totalBalance >= info.userInfo.nextLevelStakeRequired) {
                 console.log("余额满足质押条件，执行质押...");
                 const tx = await program.methods.ghostxUpgrade()
                     .preInstructions([ComputeBudgetProgram.setComputeUnitPrice({
@@ -205,7 +205,7 @@ async function mintGhost(privateKey) {
                 const signedTx = await wallet.signTransaction(tx);
                 const txid = await connection.sendRawTransaction(signedTx.serialize());
                 
-                console.log('质押交易已提交:', txid);
+                console.log('🆙升级交易已提交:', txid);
                 await connection.confirmTransaction(txid);
                 
                 // // 查询最新状态
@@ -213,7 +213,7 @@ async function mintGhost(privateKey) {
                 // printStatus(newInfo);
                 return true; // 继续执行
             } else {
-                console.log(`当前余额 ${userInfo.totalBalance} 不足以质押，需要 ${userInfo.curLevelUpgradeAmt}`);
+                console.log(`❗当前余额 ${info.userInfo.totalBalance} 不足以升级，需要 ${info.userInfo.nextLevelStakeRequired}`);
                 return false; // 暂停执行
             }
         }
@@ -221,7 +221,7 @@ async function mintGhost(privateKey) {
         // 检查 SOL 余额
         const balance = await connection.getBalance(wallet.publicKey);
         if (balance < 2044280) {
-            console.log(`SOL 余额不足: ${balance/1e9}`);
+            console.log(`🆘SOL 余额不足: ${balance/1e9}`);
             return;
         }
 
